@@ -1,0 +1,44 @@
+.comment-item {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.comment-item:hover {
+    animation: borderGlow 1s infinite alternate;
+}
+
+@keyframes borderGlow {
+    0% {
+        box-shadow: 0 0 5px #000;
+    }
+    100% {
+        box-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 60px #ff0000;
+    }
+}
+
+.comment-item .comment-name {
+    font-weight: bold;
+    font-size: 16px;
+    color: #000;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.comment-item .comment-time {
+    font-style: italic;
+    color: #800080;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.comment-item .comment-body {
+    margin-top: 30px;
+}
