@@ -1,58 +1,21 @@
 <?php
-// Путь к JSON-файлу
-$jsonFile = 'files.json';
+// Получаем данные комментария из формы
+$commentName = $_POST['commentName'];
+$commentBody = $_POST['commentBody'];
 
-// Функция для сохранения файла в JSON-файл
-function saveFile($filename, $title, $description, $file_path) {
-    // Получаем текущий список файлов из JSON-файла
-    $files = getFilesFromJson();
+// Создаем строку с комментарием
+$comment = $commentName . ' - ' . $commentBody . PHP_EOL;
 
-    // Создаем новую запись файла
-    $newFile = [
-        'filename' => $filename,
-        'title' => $title,
-        'description' => $description,
-        'file_path' => $file_path
-    ];
+// Открываем файл в режиме добавления данных
+$file = fopen('comments.txt', 'a');
 
-    // Добавляем новую запись в список файлов
-    $files[] = $newFile;
+// Записываем комментарий в файл
+fwrite($file, $comment);
 
-    // Сохраняем обновленный список файлов в JSON-файле
-    saveFilesToJson($files);
-}
+// Закрываем файл
+fclose($file);
 
-// Функция для получения списка файлов из JSON-файла
-function getFilesFromJson() {
-    global $jsonFile;
-
-    if (file_exists($jsonFile)) {
-        $jsonContent = file_get_contents($jsonFile);
-        $files = json_decode($jsonContent, true);
-        if ($files === null) {
-            $files = []; // Если JSON-файл пустой или содержит некорректные данные, создаем пустой список
-        }
-    } else {
-        $files = []; // Если JSON-файл не существует, создаем пустой список
-    }
-
-    return $files;
-}
-
-// Функция для сохранения списка файлов в JSON-файле
-function saveFilesToJson($files) {
-    global $jsonFile;
-
-    $jsonContent = json_encode($files, JSON_PRETTY_PRINT);
-    file_put_contents($jsonFile, $jsonContent);
-}
-
-// Пример использования
-$filename = 'file1.txt';
-$title = 'My File 1';
-$description = 'This is my first file';
-$file_path = 'path/to/file1.txt';
-
-// Сохраняем файл в JSON-файле
-saveFile($filename, $title, $description, $file_path);
+// Возвращаемся на предыдущую страницу
+header('Location: ' . $_SERVER['HTTP_REFERER']);
+exit;
 ?>
